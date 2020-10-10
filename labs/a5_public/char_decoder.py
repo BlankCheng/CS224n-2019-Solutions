@@ -101,15 +101,6 @@ class CharDecoder(nn.Module):
         """
 
         ### YOUR CODE HERE for part 2d
-        # output_words = []
-        # decodedWords = []
-        # start_idx = self.target_vocab.start_of_word
-        # end_idx = self.target_vocab.end_of_word
-        # states = initialStates
-        # batch_size = states[0].shape[1]
-        # chars = torch.tensor([[start_idx] * batch_size],
-        #                             device=device)  # idx of '<start>' token
-
         batch_size, hidden_size = initialStates[0].size(1), initialStates[0].size(2)
         vocab_size = len(self.target_vocab.char2id)
         decodedWords, output_words = [], []
@@ -137,47 +128,3 @@ class CharDecoder(nn.Module):
 
 
         ### END YOUR CODE
-
-    # def decode_greedy(self, initialStates, device, max_length=21):
-    #     """ Greedy decoding
-    #     @param initialStates: initial internal state of the LSTM, a tuple of two tensors of size (1, batch, hidden_size)
-    #     @param device: torch.device (indicates whether the model is on CPU or GPU)
-    #     @param max_length: maximum length of words to decode
-    #     @returns decodedWords: a list (of length batch) of strings, each of which has length <= max_length.
-    #                           The decoded strings should NOT contain the start-of-word and end-of-word characters.
-    #     """
-    #
-    #     ### YOUR CODE HERE for part 2d
-    #     ### TODO - Implement greedy decoding.
-    #     ### Hints:
-    #     ###      - Use target_vocab.char2id and target_vocab.id2char to convert between integers and characters
-    #     ###      - Use torch.tensor(..., device=device) to turn a list of character indices into a tensor.
-    #     ###      - We use curly brackets as start-of-word and end-of-word characters. That is, use the character '{' for <START> and '}' for <END>.
-    #     ###        Their indices are self.target_vocab.start_of_word and self.target_vocab.end_of_word, respectively.
-    #
-    #     output_words = []
-    #     decodedWords = []
-    #     start_idx = self.target_vocab.start_of_word
-    #     end_idx = self.target_vocab.end_of_word
-    #     dec_hidden = initialStates
-    #     batch_size = dec_hidden[0].shape[1]
-    #     current_char = torch.tensor([[start_idx] * batch_size],
-    #                                 device=device)  # idx of '<start>' token
-    #
-    #     for _ in range(max_length):
-    #         scores, dec_hidden = self.forward(current_char, dec_hidden)
-    #         current_char = scores.argmax(-1)
-    #         output_words += [current_char]
-    #
-    #
-    #     output_words = torch.cat(output_words).t().tolist()
-    #     for foo in output_words:
-    #         word = ""
-    #         for bar in foo:
-    #             if bar == end_idx:
-    #                 break
-    #             word += self.target_vocab.id2char[bar]
-    #         decodedWords += [word]
-    #
-    #     return decodedWords
-    #     ### END YOUR CODE
